@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 import os
-import mysql.connector
 
 
 
@@ -42,4 +41,4 @@ def specs_pet(id):
         return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=80)
+    app.run(debug=True)# , host="0.0.0.0", port=80
