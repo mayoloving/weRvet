@@ -1,17 +1,19 @@
 services:
   app:
     build: .
-    expose:
-      - "5000"
+    ports:
+      - 5000:5000
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
     depends_on:
       mongo:
         condition: service_healthy
 
   mongo:
-    image: mongo
+    image: mongo:4.2
     restart: always
     ports:
-    - "27017:27017"
+    - 27017:27017
     environment:
       MONGO_INITDB_DATABASE: pets
       MONGO_INITDB_ROOT_USERNAME: root
@@ -19,7 +21,7 @@ services:
     volumes:
       - mongodb-data:/data/db
     healthcheck:
-      test: ["executable", "arg"] # ***
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 }).ok"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -35,3 +37,4 @@ services:
   #     - app
 
 volumes:
+  mongodb-data:

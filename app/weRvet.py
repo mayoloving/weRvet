@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request
 # from datetime import datetime
+from pymongo import MongoClient
 
 import os
 
 app = Flask(__name__)
 app.secret_key = "yotam"
+client = MongoClient('localhost', 27017, username='root', password='pass12345')
+
+db = client.pets_db
+todos = db.todos
 
 
 @app.route("/")

@@ -9,3 +9,5 @@ mysqlclient==2.1.1
 pytz==2022.6
 Werkzeug==2.2.2
 zope.interface==5.5.2
+dnspython==2.2.1
+pymongo==4.3.3
