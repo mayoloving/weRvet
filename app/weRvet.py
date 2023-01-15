@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request
-from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
+# from datetime import datetime
+
 import os
-
-
 
 app = Flask(__name__)
 app.secret_key = "yotam"

@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    expose:
+      - "5000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+    - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: pets
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass12345
+    volumes:
+      - mongodb-data:/data/db
+    healthcheck:
+      test: ["executable", "arg"] # ***
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # nginx:
+  #   image: nginx
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx_set/nginx.conf:/etc/nginx/conf.d/default.conf 
+  #     - ./app/static:/usr/share/nginx/html/static
+  #   depends_on:
+  #     - app
+
+volumes:
