@@ -1,16 +1,15 @@
 from flask import Flask, render_template, request, jsonify
 # from datetime import datetime
 from pymongo import MongoClient
-
 import os
 
 app = Flask(__name__)
 # app.secret_key = "yotam"
 
 def get_db():
-    client = MongoClient('localhost', port=27017, username='root', password='pass12345', authSource='admin')
+    client = MongoClient(host='test_mongodb', port=27017, username='root', password='pass12345', authSource='admin')
 
-    db = client["pets"]
+    db = client["pets_db"]
     return db
 
 
@@ -59,4 +58,4 @@ def specs_pet(id):
         return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)# , host="0.0.0.0", port=80
+    app.run(debug=True, host="0.0.0.0", port=5000)

@@ -8,18 +8,22 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+    # links:
+    #   - "mongo"
 
   mongo:
     image: mongo:4.2
+    hostname: test_mongodb
     restart: always
     ports:
     - 27017:27017
     environment:
-      MONGO_INITDB_DATABASE: pets
+      MONGO_INITDB_DATABASE: pets_db
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: pass12345
     volumes:
       - mongodb-data:/data/db
+      - ./app/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
     healthcheck:
       test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 }).ok"]
       interval: 30s

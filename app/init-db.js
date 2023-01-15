@@ -1,4 +1,4 @@
-db = db.getSiblingDB("pets");
+db = db.getSiblingDB("pets_db");
 db.pets_tb.drop()
 
 db.pets_tb.insertMany([
