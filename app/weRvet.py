@@ -13,11 +13,13 @@ app.secret_key = "yotam"
 def home():
     return render_template('index.html')
 
-@app.route("/metrics")
+@app.route("/metrics", methods=["GET"])
+# `GET /metrics` use later, for monitoring.
 def metrics():
     return render_template('index.html')
 
-@app.route("/pet")
+@app.route("/pet", methods=["GET"])
+# `GET /pet` to get a JSON array of pet ids.
 def pets_ids():
     return render_template('index.html')
 
@@ -26,11 +28,11 @@ def pets_ids():
 def specs_pet(id):
     if request.method == "POST":
         # `POST /pet/{id}` with body containing some details as JSON.
-        return render_template('index.html')
+        return render_template('form.html')
 
     elif request.method == "GET":
         # `GET /pet/{id}` to return specific JSON object.
-        return render_template('index.html')
+        return render_template('form.html')
 
     elif request.method == "DELETE":
         # `DELETE /pet/{id}` remove an entity from database.
