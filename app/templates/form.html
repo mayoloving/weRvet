@@ -1,10 +1,22 @@
 {% extends "base.html" %}
-{% block title %}login page{% endblock %}
+{% block title %}serve page{% endblock %}
 
 {% block content %}
-<form action="#" method="post">
+<h1>Check on your pets</h1>
+
+<form id="inform" action="#" method="POST">
+    <p>Name:<input name="petname" type=text></p>
+    <p>ID:<input name="id" type=text></p>
+    <p>Gender:<input name="gen" type=text></p>
+    <p>Animal type:<input name="animal" type=text></p>
+    <p>Message:<input name="msg" type=text></p>
+    <p><input id="sendBtn" type="submit" value="send"></p>
+</form>
+{% endblock %}
+
+
+<!-- <form action="#" method="post">
     <p>pet name:</p>
     <p><input type="text" name="nm" /></p>
     <p><input type="submit" value="submit" /></p>
-</form>
-{% endblock %}
+</form> -->

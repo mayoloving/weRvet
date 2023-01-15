@@ -28,6 +28,11 @@ def pets_ids():
 def specs_pet(id):
     if request.method == "POST":
         # `POST /pet/{id}` with body containing some details as JSON.
+        name = request.form["petname"]
+        ids = request.form["id"]
+        gender = request.form["gen"]
+        animaltype = request.form["animal"]
+        message = request.form["msg"]
         return render_template('form.html')
 
     elif request.method == "GET":
