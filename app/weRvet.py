@@ -1,30 +1,38 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 # from datetime import datetime
 from pymongo import MongoClient
 
 import os
 
 app = Flask(__name__)
-app.secret_key = "yotam"
-client = MongoClient('localhost', 27017, username='root', password='pass12345')
+# app.secret_key = "yotam"
 
-db = client.pets_db
-todos = db.todos
+def get_db():
+    client = MongoClient('localhost', port=27017, username='root', password='pass12345', authSource='admin')
+
+    db = client["pets"]
+    return db
 
 
 @app.route("/")
 def home():
     return render_template('index.html')
 
+
 @app.route("/metrics", methods=["GET"])
 # `GET /metrics` use later, for monitoring.
 def metrics():
     return render_template('index.html')
 
+
 @app.route("/pet", methods=["GET"])
 # `GET /pet` to get a JSON array of pet ids.
-def pets_ids():
-    return render_template('index.html')
+def fetch_pets_ids():
+    db = get_db()
+    _animals = db.pets_tb.find()
+    animals = [{"name": animal["name"], "id": animal["id"], "gender": animal["gender"], "type": animal["type"], "message": animal["message"]} for animal in _animals]
+    return jsonify({"animals":animals})
+    # return render_template('index.html')
 
 
 @app.route("/pet/<id>", methods=["POST","GET","DELETE","PUT"])
