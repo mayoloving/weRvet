@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-# from datetime import datetime
 from pymongo import MongoClient
 import os
 
 app = Flask(__name__)
-# app.secret_key = "yotam"
 
 def get_db():
     client = MongoClient(host='test_mongodb', port=27017, username='root', password='pass12345', authSource='admin')
@@ -31,7 +29,6 @@ def fetch_pets_ids():
     _animals = db.pets_tb.find()
     animals = [{"name": animal["name"], "id": animal["id"], "gender": animal["gender"], "type": animal["type"], "message": animal["message"]} for animal in _animals]
     return jsonify({"animals":animals})
-    # return render_template('index.html')
 
 
 @app.route("/pet/<id>", methods=["POST","GET","DELETE","PUT"])
