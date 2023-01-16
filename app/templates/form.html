@@ -13,6 +13,8 @@
     <p>Animal type:<input name="animal" type=text></p>
     <p>Message:<input name="msg" type=text></p>
     <p><input id="sendBtn" type="submit" value="create"></p>
+    <p><input id="updateBtn" type="button" value="update"></p>
+    <p><input id="deleteBtn" type="button" value="delete"></p>
 </form>
 <!-- <form id="inform" action="#" method="DELETE">
     <p><input id="delBtn" type="submit" value="delete"></p>
@@ -24,4 +26,16 @@
 <div class="data">
     {{data}}
 </div>
+
+<script>
+    document.getElementById("updateBtn").addEventListener("click", function(){
+        document.getElementById("inform").method = "PUT";
+        document.getElementById("inform").submit();
+    });
+    document.getElementById("deleteBtn").addEventListener("click", function(){
+        document.getElementById("inform").method = "DELETE";
+        document.getElementById("inform").submit();
+    });
+</script>
+
 {% endblock %}
