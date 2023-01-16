@@ -44,24 +44,52 @@ def specs_pet(id):
         animaltype = request.form["animal"]
         message = request.form["msg"]
 
-        # db = get_db()
-        # db.pets_tb.insert()
-
-        return render_template('form.html')
+        db = get_db()
+        new_pet = {
+            "name": name,
+            "id": ids,
+            "gender": gender,
+            "type": animaltype,
+            "message": message
+        }
+        db.pets_tb.insert_one(new_pet)
+        return "Pet added successfully"
 
     elif request.method == "GET":
+        # `GET /person/{id}` to return specific JSON object.
         db = get_db()
-        result = list(db.pets_tb.find({"id": int(id)}))
-        return json.loads(json_util.dumps(result))
+        result = list(db.pets_tb.find({"id": id}))
+        return render_template('form.html', data = json.loads(json_util.dumps(result)))
 
 
     elif request.method == "DELETE":
         # `DELETE /pet/{id}` remove an entity from database.
-        return render_template('index.html')
+        db = get_db()
+        db.pets_tb.delete_one({"id": id})
+        return "Pet successfully deleted"
 
     else:
         # `PUT /pet/{id}` same thing exactly, but updates existing pet.
-        return render_template('index.html')
+        name = request.form["petname"]
+        ids = request.form["id"]
+        gender = request.form["gen"]
+        animaltype = request.form["animal"]
+        message = request.form["msg"]
+
+        db = get_db()
+        # update_pet = {
+        #     "name": name,
+        #     "id": ids,
+        #     "gender": gender,
+        #     "type": animaltype,
+        #     "message": message
+        # }
+        # db.pets_tb.update_one(update_pet)
+        # return "Pet updated successfully"
+
+        new_values = { "$set": {"name": name,"id": ids, "gender": gender, "type": animaltype, "message": message}}
+        db.pets_tb.update_one({"id": int(id)}, new_values)
+        return "Pet successfully updated"
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
