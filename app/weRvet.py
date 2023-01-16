@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
+from bson import json_util
+import json
 import os
+
 
 app = Flask(__name__)
 
@@ -31,7 +34,7 @@ def fetch_pets_ids():
     return jsonify({"animals":animals})
 
 
-@app.route("/pet/<id>", methods=["POST","GET","DELETE","PUT"])
+@app.route("/pet/<id>/", methods=["POST","GET","DELETE","PUT"])
 def specs_pet(id):
     if request.method == "POST":
         # `POST /pet/{id}` with body containing some details as JSON.
@@ -40,11 +43,17 @@ def specs_pet(id):
         gender = request.form["gen"]
         animaltype = request.form["animal"]
         message = request.form["msg"]
+
+        # db = get_db()
+        # db.pets_tb.insert()
+
         return render_template('form.html')
 
     elif request.method == "GET":
-        # `GET /pet/{id}` to return specific JSON object.
-        return render_template('form.html')
+        db = get_db()
+        result = list(db.pets_tb.find({"id": int(id)}))
+        return json.loads(json_util.dumps(result))
+
 
     elif request.method == "DELETE":
         # `DELETE /pet/{id}` remove an entity from database.

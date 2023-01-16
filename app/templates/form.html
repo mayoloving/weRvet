@@ -1,6 +1,25 @@
 {% extends "base.html" %}
 {% block title %}serve page{% endblock %}
+<!-- <script>
+    function petid() {
+      var petid = window.location.href.substring(window.location.href.lastIndexOf("/")+1);
+    //   if (petid=="") petid = "general";
+      return "/pet/"+petid;
+    }
 
+    function updateChat() {
+      $.get(petid(), function(data) {$("#chatbox").text(data); window.setTimeout(updateChat, 1500);})
+      //.get( url [, data ] [, success ] [, dataType ] )
+    }
+
+    function sendmessage() {
+      $.post(petid(), $("#inform").serialize() );
+      //.post( url [, data ] [, success ] [, dataType ] )
+    }
+
+    $(document).ready(function() {$("#chatbox").text("Loading chat...");$("#sendBtn").click(sendmessage);window.setTimeout(updateChat, 1500);});
+
+</script> -->
 {% block content %}
 <h1>Check on your pets</h1>
 
@@ -12,11 +31,6 @@
     <p>Message:<input name="msg" type=text></p>
     <p><input id="sendBtn" type="submit" value="send"></p>
 </form>
+<!-- <pre id="chatbox">Loading...</pre> -->
 {% endblock %}
 
-
-<!-- <form action="#" method="post">
-    <p>pet name:</p>
-    <p><input type="text" name="nm" /></p>
-    <p><input type="submit" value="submit" /></p>
-</form> -->
