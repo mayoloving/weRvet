@@ -1,6 +1,8 @@
 services:
   app:
     build: .
+    # expose:
+    #   - 5000
     ports:
       - 5000:5000
     depends_on:
