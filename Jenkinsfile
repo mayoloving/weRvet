@@ -30,34 +30,34 @@ pipeline {
             }
         }
 
-        stage ("Calculate and set a 3-number version (for release)") {
-            when {
-                expression {
-                    env.BRANCH_NAME.contains("release/")
-                }
-            }
-            steps {
-                sh """
-                    git checkout \$GIT_BRANCH
-                    git clone --branch \$GIT_BRANCH http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
-                    git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
-                    val=\$(echo "\$GIT_BRANCH" | cut -d"/" -f"2")
-                    echo \$(git tag -l)
-                    echo \$(git describe --tags)
-                    if [ -z "\$(git tag -l)" ];
-                    then
-                        mvn versions:set -DnewVersion=\$val.1
-                        mvn dependency:list
-                        echo "\$val.1" > v.txt
-                    else
-                        num=\$(git tag -l | tail -1 | cut -d"." -f"3")
-                        num=\$((\$num+1))
-                        echo "\$val.\$num" > v.txt
-                        mvn versions:set -DnewVersion=\$val.\$num
-                    fi
-                """  
-            } 
-        }
+        // stage ("Calculate and set a 3-number version (for release)") {
+        //     when {
+        //         expression {
+        //             env.BRANCH_NAME.contains("master")
+        //         }
+        //     }
+        //     steps {
+        //         sh """
+        //             git checkout \$GIT_BRANCH
+        //             git clone --branch \$GIT_BRANCH http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
+        //             git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
+        //             val=\$(echo "\$GIT_BRANCH" | cut -d"/" -f"2")
+        //             echo \$(git tag -l)
+        //             echo \$(git describe --tags)
+        //             if [ -z "\$(git tag -l)" ];
+        //             then
+        //                 mvn versions:set -DnewVersion=\$val.1
+        //                 mvn dependency:list
+        //                 echo "\$val.1" > v.txt
+        //             else
+        //                 num=\$(git tag -l | tail -1 | cut -d"." -f"3")
+        //                 num=\$((\$num+1))
+        //                 echo "\$val.\$num" > v.txt
+        //                 mvn versions:set -DnewVersion=\$val.\$num
+        //             fi
+        //         """  
+        //     } 
+        // }
 
         stage ("Build") {
             when {
@@ -84,7 +84,7 @@ pipeline {
             }
             steps {
                 sh """
-                    docker run --name wervettest --network=ubuntu_default -d -p 5000:5000 wervet
+                    docker run --name wervettest -d -p 5000:5000 wervet
                     sleep 8
                     curl wervettest:5000
                 """
