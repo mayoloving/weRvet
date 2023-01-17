@@ -30,16 +30,16 @@ services:
       timeout: 10s
       retries: 5
 
-  # nginx:
-  #   image: nginx
-  #   restart: always
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./nginx_set/nginx.conf:/etc/nginx/conf.d/default.conf 
-  #     - ./app/static:/usr/share/nginx/html/static
-  #   depends_on:
-  #     - app
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx_set/nginx.conf:/etc/nginx/conf.d/default.conf 
+      - ./app/static:/usr/share/nginx/html/static
+    depends_on:
+      - app
 
 volumes:
   mongodb-data:
