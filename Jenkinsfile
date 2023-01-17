@@ -67,7 +67,9 @@ pipeline {
                 }
             }
             steps {
-                docker build -t wervet .
+                sh """
+                    docker build -t wervet .
+                """
             }
             
         }
@@ -81,9 +83,11 @@ pipeline {
                 }
             }
             steps {
-                docker run --name wervettest --network=ubuntu_default -d -p 5000:5000 wervet
-                sleep 8
-                curl wervettest:5000
+                sh """
+                    docker run --name wervettest --network=ubuntu_default -d -p 5000:5000 wervet
+                    sleep 8
+                    curl wervettest:5000
+                """
             }
             
         }
