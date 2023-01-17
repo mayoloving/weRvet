@@ -86,7 +86,7 @@ pipeline {
                 sh """
                     docker run --name wervettest -d -p 5000:5000 wervet
                     sleep 8
-                    curl wervettest:5000
+                    curl 3.8.143.88:5000
                 """
             }
             
