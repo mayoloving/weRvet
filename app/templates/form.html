@@ -5,16 +5,16 @@
 <h1>Check on your pets</h1>
 
 <form id="inform" action="#" method="POST">
-    <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" name="_method" value="DELETE">
+    {% comment %} <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="_method" value="DELETE"> {% endcomment %}
     <p>Name:<input name="petname" type=text></p>
     <p>ID:<input name="id" type=text></p>
     <p>Gender:<input name="gen" type=text></p>
     <p>Animal type:<input name="animal" type=text></p>
     <p>Message:<input name="msg" type=text></p>
     <p><input id="sendBtn" type="submit" value="create"></p>
-    <p><input id="updateBtn" type="button" value="update"></p>
-    <p><input id="deleteBtn" type="button" value="delete"></p>
+    {% comment %} <p><input id="updateBtn" type="button" value="update"></p>
+    <p><input id="deleteBtn" type="button" value="delete"></p> {% endcomment %}
 </form>
 <!-- <form id="inform" action="#" method="DELETE">
     <p><input id="delBtn" type="submit" value="delete"></p>
@@ -27,7 +27,7 @@
     {{data}}
 </div>
 
-<script>
+{% comment %} <script>
     document.getElementById("updateBtn").addEventListener("click", function(){
         document.getElementById("inform").method = "PUT";
         document.getElementById("inform").submit();
@@ -36,6 +36,6 @@
         document.getElementById("inform").method = "DELETE";
         document.getElementById("inform").submit();
     });
-</script>
+</script> {% endcomment %}
 
 {% endblock %}
