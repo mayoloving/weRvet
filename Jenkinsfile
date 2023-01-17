@@ -85,7 +85,7 @@ pipeline {
             steps {
                 sh """
                     docker run --name wervettest -d -p 5000:5000 wervet
-                    sleep 8
+                    sleep 5
                     curl 3.8.143.88:5000
                 """
             }
