@@ -25,17 +25,8 @@ def metrics():
     return render_template('index.html')
 
 
-@app.route("/pet", methods=["GET"])
-# `GET /pet` to get a JSON array of pet ids.
-def fetch_pets_ids():
-    db = get_db()
-    _animals = db.pets_tb.find()
-    animals = [{"name": animal["name"], "id": animal["id"], "gender": animal["gender"], "type": animal["type"], "message": animal["message"]} for animal in _animals]
-    return jsonify({"animals":animals})
-
-
-@app.route("/pet/<id>/", methods=["POST","GET"])
-def specs_pet(id):
+@app.route("/pet", methods=["GET","POST"])
+def fetch_pets():
     if request.method == "POST":
         # `POST /pet/{id}` with body containing some details as JSON.
         name = request.form.get("petname")
@@ -56,58 +47,66 @@ def specs_pet(id):
         for key, value in new_pet.items():
             if value is None or value == "":
                 return (f"{key} is null;enter again")
-        try:
-            result = list(db.pets_tb.find({"id": id}))
-            return "the id already exists"
-        except:
+            
+        if len(list(db.pets_tb.find({"id": ids}))) == 0:
             db.pets_tb.insert_one(new_pet)
             return "Pet added successfully"
+        else:
+            return "the id already exists"
+        
+    else:
+        # `GET /pet` to get a JSON array of pet ids.
+        db = get_db()
+        _animals = db.pets_tb.find()
+        animals = [{"name": animal["name"], "id": animal["id"], "gender": animal["gender"], "type": animal["type"], "message": animal["message"]} for animal in _animals]
+        return jsonify({"animals":animals})
 
+
+@app.route("/pet/<id>/", methods=["PUT","GET","DELETE"])
+def specs_pet(id):
+    if request.method == "PUT":
+        # `PUT /person/{id}` same thing exactly, but updates existing person.
+        name = request.form.get("petname")
+        gender = request.form.get("gen")
+        animaltype = request.form.get("animal")
+        message = request.form.get("msg")
+        
+        db = get_db()
+
+        new_pet = {
+                "name": name,
+                "gender": gender,
+                "type": animaltype,
+                "message": message
+            }
+
+        for key, value in new_pet.items():
+            if value is None or value == "":
+                return (f"{key} is null;enter again")
+
+        if not list(db.pets_tb.find({"id": id})):
+            return "pet doesn't exist" ,404
+        
+        db.pets_tb.update_one({"id": id}, { "$set": new_pet})
+        return "Pet successfully updated"
+    
+    
+    elif request.method == "DELETE":
+        # `DELETE /person/{id}` remove an entity from database.
+        db = get_db()
+        result = db.pets_tb.delete_one({"id": id})
+        if result.deleted_count == 1:
+            return "Pet deleted successfully"
+        else:
+            return "Pet not found"
+        
+        
     else:
         # `GET /person/{id}` to return specific JSON object.
         db = get_db()
         result = list(db.pets_tb.find({"id": id}))
-        return render_template('form.html', data = json.loads(json_util.dumps(result)))
-
-
-@app.route("/pet/update/<id>/", methods=["POST"])
-def update_pet(id):
-    # `PUT /pet/{id}` same thing exactly, but updates existing pet.
-    name = request.form.get("petname")
-    gender = request.form.get("gen")
-    animaltype = request.form.get("animal")
-    message = request.form.get("msg")
-    
-    db = get_db()
-
-    new_pet = {
-            "name": name,
-            "gender": gender,
-            "type": animaltype,
-            "message": message
-        }
-
-    for key, value in new_pet.items():
-        if value is None or value == "":
-            return (f"{key} is null;enter again")
-
-    if not list(db.pets_tb.find({"id": id})):
-        return "pet not here" ,404
-    
-    db.pets_tb.update_one({"id": id}, { "$set": new_pet})
-    return "Pet successfully updated"
-
-
-@app.route("/pet/delete/<id>/", methods=["POST"])
-def delete_pet(id):
-    # `DELETE /person/{id}` remove an entity from database.
-    db = get_db()
-    result = db.pets_tb.delete_one({"id": id})
-    if result.deleted_count == 1:
-        return "Pet deleted successfully"
-    else:
-        return "Pet not found"
-
+        # return render_template('form.html', data = json.loads(json_util.dumps(result)))
+        return jsonify({"animal":json.loads(json_util.dumps(result))})
 
 
 
