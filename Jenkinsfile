@@ -168,7 +168,6 @@ pipeline {
                 docker stop wervettest || echo "no wervettest"
                 docker rm -f wervettest || echo "no wervettest"
                 docker rmi -f wervet || echo "no wervet"
-                docker-compose down
             """ 
              
         } 
@@ -177,7 +176,6 @@ pipeline {
                 docker stop wervettest || echo "no wervettest"
                 docker rm -f wervettest || echo "no wervettest"
                 docker rmi -f wervet || echo "no wervet"
-                docker-compose down
             """ 
             mail (to: "benz.yota@gmail.com", subject: "BUILD LOG", body: "the build was a failure");
         } 
