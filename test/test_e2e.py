@@ -13,10 +13,10 @@ def test_get_request():
     # assert response.json() == {"items": ["item1", "item2", "item3"]}
     
 #==============================/pet===============================
-# def test_get_pet_request():
-#     response = requests.get(base_url + "/pet")
-#     assert response.status_code == 200
-#     assert response.json() == {"items": ["item1", "item2", "item3"]}
+def test_get_pet_request():
+    response = requests.get(base_url + "/pet")
+    assert response.status_code == 200
+    # assert response.json() == {"items": ["item1", "item2", "item3"]}
     
 # def test_post_pet_request():
 #     data = {
