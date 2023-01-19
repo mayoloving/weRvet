@@ -21,7 +21,7 @@ def test_get_pet_request():
     # print(response.content)
     
 def test_post_pet_request():
-    file = open("/home/yotambenz/Desktop/portfolio-yotambenz/weRvet/test/sanity.json", "r")
+    file = open("./create.json", "r")
     json_input = file.read()
     request_json = json.loads(json_input)
     print(request_json)
@@ -30,28 +30,26 @@ def test_post_pet_request():
     print(response.content)
     assert response.status_code == 200
     
-# #==============================/pet/<id>/===============================
+#==============================/pet/<id>/===============================
 def test_get_petid_request():
     response = requests.get(base_url + "/pet/2")
     assert response.status_code == 200
     print(response.content)
 
 
-# def test_put_petid_request():
-#     payload = {
-#             "petname": "doggo",
-#             "gen": "M",
-#             "animal": "doggo",
-#             "msg": "doggo"
-#         }
-#     response = requests.put(base_url + "/pet/12", )
-#     assert response.status_code == 200
+def test_put_petid_request():
+    file = open("./update.json", "r")
+    json_input = file.read()
+    request_json = json.loads(json_input)
+    print(request_json)
     
-#     data = response.json()
-#     print(data)
-
-
-# def test_delete_petid_request():
-#     response = requests.delete(base_url + "/pet/12")
-#     print(response.status_code)
-#     assert response.status_code == 200
+    
+    response = requests.put(base_url + "/pet/0", request_json)
+    print(response.content)
+    assert response.status_code == 200
+    
+    
+def test_delete_petid_request():
+    response = requests.delete(base_url + "/pet/0")
+    print(response.status_code)
+    assert response.status_code == 200
