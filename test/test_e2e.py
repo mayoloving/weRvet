@@ -1,6 +1,5 @@
 import requests
 import json
-from bson import json_util
 # import pytest
 
 #======================================================================================================
@@ -12,7 +11,6 @@ def test_get_request():
     response = requests.get(base_url + "/")
     assert response.status_code == 200
     # print(response.content)
-    # assert response.json() == {"items": ["item1", "item2", "item3"]}
     
 #==============================/pet===============================
 def test_get_pet_request():
@@ -23,22 +21,14 @@ def test_get_pet_request():
     # print(response.content)
     
 def test_post_pet_request():
-    payload = {
-            "petname": "doggo",
-            "id": "12",
-            "gen": "M",
-            "animal": "doggo",
-            "msg": "doggo"
-        }
-    request_json = json.loads(payload)
+    file = open("/home/yotambenz/Desktop/portfolio-yotambenz/weRvet/test/sanity.json", "r")
+    json_input = file.read()
+    request_json = json.loads(json_input)
     print(request_json)
-    # response = requests.post(base_url + "/pet", data=json.dumps(payload))
-    # assert response.status_code == 200
-    # # data = response.json()
-    # # assert data["petname"] == payload["petname"]
-    # # print(data)
-    # assert response.headers["Content-Type"] == "application/json"
-    # assert response.json() == {"message": "Pet created successfully.", "id": "12"}
+
+    response = requests.post(base_url + "/pet", request_json)
+    print(response.content)
+    assert response.status_code == 200
     
 # #==============================/pet/<id>/===============================
 def test_get_petid_request():
@@ -54,7 +44,7 @@ def test_get_petid_request():
 #             "animal": "doggo",
 #             "msg": "doggo"
 #         }
-#     response = requests.put(base_url + "/pet/3", data=json.loads(json_util.dumps(payload)))
+#     response = requests.put(base_url + "/pet/12", )
 #     assert response.status_code == 200
     
 #     data = response.json()
@@ -62,6 +52,6 @@ def test_get_petid_request():
 
 
 # def test_delete_petid_request():
-#     response = requests.delete(base_url + "/pet/3")
+#     response = requests.delete(base_url + "/pet/12")
 #     print(response.status_code)
 #     assert response.status_code == 200
