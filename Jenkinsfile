@@ -104,6 +104,8 @@ pipeline {
             steps {
                 sh """
                     docker-compose up --build -d
+                    docker build -t tester .
+                    docker run --name testinge2e --network=portfolio-proj_master_default tester:latest
                 """
             }
         }
@@ -168,9 +170,8 @@ pipeline {
                 docker stop wervettest || echo "no wervettest"
                 docker rm -f wervettest || echo "no wervettest"
                 docker rmi -f wervet || echo "no wervet"
+                docker-compose down || echo "no compose"
             """ 
-                            // docker-compose down || echo "no compose"
-
              
         } 
         failure { 
@@ -178,6 +179,7 @@ pipeline {
                 docker stop wervettest || echo "no wervettest"
                 docker rm -f wervettest || echo "no wervettest"
                 docker rmi -f wervet || echo "no wervet"
+                docker-compose down || echo "no compose"
             """ 
             mail (to: "benz.yota@gmail.com", subject: "BUILD LOG", body: "the build was a failure");
         } 

@@ -9,3 +9,4 @@ WORKDIR /test
 RUN pip install requests && pip install requests && pip install pytest
 
 CMD [ "bash" ]
+ENTRYPOINT pytest -v -s
