@@ -6,6 +6,6 @@ COPY ./update.json /test/
 
 WORKDIR /test
 
-RUN pip install requests && pip install requests
+RUN pip install requests && pip install requests && pip install pytest
 
-CMD bash 
+CMD [ "bash" ]
