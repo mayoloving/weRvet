@@ -30,35 +30,6 @@ pipeline {
             }
         }
 
-        // stage ("Calculate and set a 3-number version (for release)") {
-        //     when {
-        //         expression {
-        //             env.BRANCH_NAME.contains("master")
-        //         }
-        //     }
-        //     steps {
-        //         sh """
-        //             git checkout \$GIT_BRANCH
-        //             git clone --branch \$GIT_BRANCH http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
-        //             git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
-        //             val=\$(echo "\$GIT_BRANCH" | cut -d"/" -f"2")
-        //             echo \$(git tag -l)
-        //             echo \$(git describe --tags)
-        //             if [ -z "\$(git tag -l)" ];
-        //             then
-        //                 mvn versions:set -DnewVersion=\$val.1
-        //                 mvn dependency:list
-        //                 echo "\$val.1" > v.txt
-        //             else
-        //                 num=\$(git tag -l | tail -1 | cut -d"." -f"3")
-        //                 num=\$((\$num+1))
-        //                 echo "\$val.\$num" > v.txt
-        //                 mvn versions:set -DnewVersion=\$val.\$num
-        //             fi
-        //         """  
-        //     } 
-        // }
-
         stage ("Build") {
             when {
                 anyOf {
@@ -86,7 +57,7 @@ pipeline {
                 sh """
                     docker run --name wervettest -d -p 5000:5000 wervet
                     sleep 5
-                    curl 13.40.84.88:5000
+                    curl 35.178.167.179:5000
                     docker stop wervettest || echo "no wervettest"
                     docker rm -f wervettest || echo "no wervettest"
                 """
@@ -112,6 +83,52 @@ pipeline {
                 """
             }
         }
+
+        stage ("Calculate and set a 3-number version (for master)") {
+            when {
+                expression {
+                    env.BRANCH_NAME.contains("master")
+                }
+            }
+            steps {
+                sh """
+                    git checkout \$GIT_BRANCH
+                    git clone --branch \$GIT_BRANCH <url of git repo>
+                    git fetch --tags <url of git repo>
+                    
+                    major=\$(git tag -l | tail -1 | cut -d"." -f"1")
+                    minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
+
+                    echo \$(git tag -l)
+                    echo \$(git describe --tags)
+                    if [ -z "\$(git tag -l)" ];
+                    then
+                        echo "1.0.1" > v.txt
+                    else
+                        num=\$(git tag -l | tail -1 | cut -d"." -f"3")
+                        num=\$((\$num+1))
+                        echo "\$val.\$num" > v.txt
+                        mvn versions:set -DnewVersion=\$val.\$num
+                    fi
+                """  
+            } 
+        }
+
+        // stage ("Clean/reset and tag") {
+        //     when {
+        //         expression {
+        //             env.BRANCH_NAME.contains("release/")
+        //         }
+        //     }
+        //     steps {
+        //         sh """
+        //             val=\$(cat v.txt)
+        //             git tag \$val HEAD
+        //             git push http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git \$val
+        //             git clean -f
+        //         """
+        //     }
+        // }
 
         // stage ("Publish to ECR") {
         //     when {
@@ -149,21 +166,7 @@ pipeline {
         //     }
         // }
 
-        // stage ("Clean/reset and tag") {
-        //     when {
-        //         expression {
-        //             env.BRANCH_NAME.contains("release/")
-        //         }
-        //     }
-        //     steps {
-        //         sh """
-        //             val=\$(cat v.txt)
-        //             git tag \$val HEAD
-        //             git push http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git \$val
-        //             git clean -f
-        //         """
-        //     }
-        // }
+        
 
     }
 
