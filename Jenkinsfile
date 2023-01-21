@@ -93,8 +93,8 @@ pipeline {
             steps {
                 sh """
                     git checkout \$GIT_BRANCH
-                    git clone --branch \$GIT_BRANCH <url of git repo>
-                    git fetch --tags <url of git repo>
+                    git clone --branch \$GIT_BRANCH https://github.com/mayoloving/weRvet.git
+                    git fetch --tags https://github.com/mayoloving/weRvet.git
                     
                     major=\$(git tag -l | tail -1 | cut -d"." -f"1")
                     minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
@@ -117,7 +117,7 @@ pipeline {
         // stage ("Clean/reset and tag") {
         //     when {
         //         expression {
-        //             env.BRANCH_NAME.contains("release/")
+        //             env.BRANCH_NAME.contains("master")
         //         }
         //     }
         //     steps {
@@ -138,7 +138,7 @@ pipeline {
         //     }
         //     steps {
         //         sh """
-        //             docker tag toxic:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
+        //             docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
         //             docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
         //         """
         //     }
