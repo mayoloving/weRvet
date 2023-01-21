@@ -91,26 +91,13 @@ pipeline {
                 }
             }
             steps {
-                sh """
-                    git checkout \$GIT_BRANCH
-                    git clone --branch \$GIT_BRANCH https://github.com/mayoloving/weRvet.git
-                    git fetch --tags https://github.com/mayoloving/weRvet.git
-                    
-                    major=\$(git tag -l | tail -1 | cut -d"." -f"1")
-                    minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
-
-                    echo \$(git tag -l)
-                    echo \$(git describe --tags)
-                    if [ -z "\$(git tag -l)" ];
-                    then
-                        echo "1.0.1" > v.txt
-                    else
-                        num=\$(git tag -l | tail -1 | cut -d"." -f"3")
-                        num=\$((\$num+1))
-                        echo "\$val.\$num" > v.txt
-                        mvn versions:set -DnewVersion=\$val.\$num
-                    fi
-                """  
+                withCredentials([usernamePassword(credentialsId: 'github_id', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    sh """
+                        git checkout \$GIT_BRANCH
+                        git clone --branch \$GIT_BRANCH https://github.com/mayoloving/weRvet.git
+                        
+                    """
+                }
             } 
         }
 
