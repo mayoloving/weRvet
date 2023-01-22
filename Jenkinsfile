@@ -113,19 +113,19 @@ pipeline {
         //     }
         // }
 
-        stage ("Publish to ECR") {
-            when {
-                expression {
-                    env.BRANCH_NAME == "master"
-                }
-            }
-            steps {
-                sh """
-                    docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
-                    docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
-                """
-            }
-        }
+        // stage ("Publish to ECR") {
+        //     when {
+        //         expression {
+        //             env.BRANCH_NAME == "master"
+        //         }
+        //     }
+        //     steps {
+        //         sh """
+        //             docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
+        //             docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest
+        //         """
+        //     }
+        // }
 
 
         // stage ("Deploy") {
