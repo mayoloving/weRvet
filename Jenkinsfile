@@ -93,8 +93,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github_id', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh """
-                        echo \$passwordVariable
-                        echo \$usernameVariable
+                        echo "\$passwordVariable"
+                        echo "\$usernameVariable"
                         git checkout \$GIT_BRANCH
                         git clone --branch \$GIT_BRANCH https://github.com/mayoloving/weRvet.git
                         
