@@ -93,7 +93,6 @@ pipeline {
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'github_cred', gitToolName: 'Default')]){
                     sh """
-
                         echo \$(git tag -l)
                         echo \$(git describe --tags)
                         line=\$(git tag -l | wc -l)
