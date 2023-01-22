@@ -125,6 +125,8 @@ pipeline {
                         tar -cf portfolio-startup-package.tar app nginx_set docker-compose.prod.yml
                         scp -r ./portfolio-startup-package.tar ubuntu@10.30.0.209:/home/ubuntu
                         ssh ubuntu@10.30.0.209 "tar -xvf /home/ubuntu/portfolio-startup-package.tar -C /home/ubuntu/"
+                        ssh ubuntu@10.30.0.209 "ls -al"
+                        ssh ubuntu@10.30.0.209 "pwd"
 
 
                         tag=\$(git tag -l | tail -1)
