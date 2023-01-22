@@ -137,6 +137,7 @@ pipeline {
 
                                 git tag \$val HEAD
                                 git push https://github.com/mayoloving/weRvet.git \$val
+                            fi
                         fi
 
                         git clean -f
