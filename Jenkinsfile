@@ -91,32 +91,63 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github_id', passwordVariable: 'password', usernameVariable: 'username')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'github_cred', gitToolName: 'Default')]){
                     sh """
-                        echo "\$passwordVariable"
-                        echo "\$usernameVariable"
-                        git checkout \$GIT_BRANCH
-                        git clone --branch \$GIT_BRANCH https://github.com/mayoloving/weRvet.git
-                        
+                        // git checkout \$GIT_BRANCH
+                        // git clone --branch \$GIT_BRANCH https://mayoloving:tyoamYBZ123@github.com/mayoloving/weRvet.git
+                        // git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
+
+                        echo \$(git tag -l)
+                        echo \$(git describe --tags)
+                        line=\$(git tag -l | wc -l)
+
+                        if [ -z "\$(git tag -l)" ];
+                        then
+                            echo "no tags were entered yet by coders"
+                        elif [ \$line == "1" ];
+                        then
+                            major=\$(git tag -l | tail -1 | cut -d"." -f"1")
+                            minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
+                            val=\$major.\$minor.1
+
+                            git tag -d \$major.\$minor
+                            git push --delete origin \$major.\$minor
+
+                            git tag \$val HEAD
+                            git push https://github.com/mayoloving/weRvet.git \$val
+                        else
+                            majorlast=\$(git tag -l | tail -1 | cut -d"." -f"1")
+                            minorlast=\$(git tag -l | tail -1 | cut -d"." -f"2")
+                            major=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"1")
+                            minor=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"2")
+
+                            if [ \$major == \$majorlast ] && [ \$minor == \$minorlast ];
+                            then
+                                num=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"3")
+                                num=\$((\$num+1))
+                                val=\$major.\$minor.\$num
+
+                                git tag -d \$majorlast.\$minorlast
+                                git push --delete origin \$majorlast.\$minorlast
+
+                                git tag \$val HEAD
+                                git push https://github.com/mayoloving/weRvet.git \$val
+                            else
+                                val=\$majorlast.\$minorlast.1
+
+                                git tag -d \$majorlast.\$minorlast
+                                git push --delete origin \$majorlast.\$minorlast
+
+                                git tag \$val HEAD
+                                git push https://github.com/mayoloving/weRvet.git \$val
+                        fi
+
+                        git clean -f
                     """
                 }
             } 
         }
-                        // git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
-                        // val=\$(echo "\$GIT_BRANCH" | cut -d"/" -f"2")
-                        // echo \$(git tag -l)
-                        // echo \$(git describe --tags)
-                        // if [ -z "\$(git tag -l)" ];
-                        // then
-                        //     mvn versions:set -DnewVersion=\$val.1
-                        //     mvn dependency:list
-                        //     echo "\$val.1" > v.txt
-                        // else
-                        //     num=\$(git tag -l | tail -1 | cut -d"." -f"3")
-                        //     num=\$((\$num+1))
-                        //     echo "\$val.\$num" > v.txt
-                        //     mvn versions:set -DnewVersion=\$val.\$num
-                        // fi
+                        
         // stage ("Clean/reset and tag") {
         //     when {
         //         expression {
