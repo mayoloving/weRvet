@@ -93,9 +93,6 @@ pipeline {
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'github_cred', gitToolName: 'Default')]){
                     sh """
-                        // git checkout \$GIT_BRANCH
-                        // git clone --branch \$GIT_BRANCH https://mayoloving:tyoamYBZ123@github.com/mayoloving/weRvet.git
-                        // git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
 
                         echo \$(git tag -l)
                         echo \$(git describe --tags)
