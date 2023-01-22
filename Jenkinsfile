@@ -106,7 +106,7 @@ pipeline {
             steps {
                 sh """
                     tag=\$(git tag -l | tail -1)
-                    TAG= "\$tag"
+                    TAG=\$tag
                     docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag
                     docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag
                 """
