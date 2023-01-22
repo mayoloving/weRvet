@@ -93,17 +93,16 @@ pipeline {
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'github_cred', gitToolName: 'Default')]){
                     sh """
-                        echo \$(git tag -l)
-                        echo \$(git describe --tags)
                         t=\$(git tag -l | tail -1)
                         major=\$(git tag -l | tail -1 | cut -d"." -f"1")
                         minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
                         line=\$(git tag -l | wc -l)
+                        s=\$major.\$minor
 
                         if [ -z "\$(git tag -l)" ];
                         then
                             echo "no tags were entered yet by coders"
-                        elif [ \$line == "1" ] && [ \$t == \$major.\$minor ];
+                        elif [ \$line == "1" ] && [ \$t == \$s ];
                         then
                             major=\$(git tag -l | tail -1 | cut -d"." -f"1")
                             minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
