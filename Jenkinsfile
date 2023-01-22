@@ -121,7 +121,7 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'key-gen1', keyFileVariable: '', usernameVariable: 'key-gen1')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'key_gen_prod', keyFileVariable: '', usernameVariable: 'key_gen_prod')]) {
                     sh """
                         tar -cf portfolio-startup-package.tar app nginx_set 
                         scp -r ./portfolio-startup-package.tar ubuntu@10.30.0.209:/home/ubuntu
