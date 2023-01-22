@@ -132,11 +132,11 @@ pipeline {
                         tag=\$(git tag -l | sort -V | tail -1)
                         export MY_TAG=\$tag
                         echo "\$MY_TAG"
-                        ssh ubuntu@10.30.0.209 "docker-compose down -f docker-compose-prod.yml || true"
+                        ssh ubuntu@10.30.0.209 "docker-compose -f docker-compose-prod.yml down || true"
 
                         ssh ubuntu@10.30.0.209 "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag"
 
-                        ssh ubuntu@10.30.0.209 "docker-compose up -f docker-compose-prod.yml --build -d"
+                        ssh ubuntu@10.30.0.209 "docker-compose -f docker-compose-prod.yml up --build -d"
 
                     """
                 }
