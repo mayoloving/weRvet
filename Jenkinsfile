@@ -102,7 +102,7 @@ pipeline {
                         if [ -z "\$(git tag -l)" ];
                         then
                             echo "no tags were entered yet by coders"
-                        elif [ \$line == "1" ] && [ \$t == \$s ];
+                        elif [[ \$line == "1" && \$t == \$s ]];
                         then
                             major=\$(git tag -l | tail -1 | cut -d"." -f"1")
                             minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
@@ -119,7 +119,7 @@ pipeline {
                             major=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"1")
                             minor=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"2")
 
-                            if [ \$major == \$majorlast ] && [ \$minor == \$minorlast ];
+                            if [[ \$major == \$majorlast && \$minor == \$minorlast ]];
                             then
                                 num=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"3")
                                 num=\$((\$num+1))
