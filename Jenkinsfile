@@ -122,7 +122,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'key_gen_prod', keyFileVariable: '', usernameVariable: 'key_gen_prod')]) {
                     sh """
-                        tar -cf portfolio-startup-package.tar app nginx_set docker-compose.prod.yml
+                        tar -cf portfolio-startup-package.tar app nginx_set docker-compose-prod.yml
                         scp -r ./portfolio-startup-package.tar ubuntu@10.30.0.209:/home/ubuntu
                         ssh ubuntu@10.30.0.209 "tar -xvf /home/ubuntu/portfolio-startup-package.tar -C /home/ubuntu/"
                         ssh ubuntu@10.30.0.209 "ls -al"
@@ -132,11 +132,11 @@ pipeline {
                         tag=\$(git tag -l | sort -V | tail -1)
                         export MY_TAG=\$tag
                         echo "\$MY_TAG"
-                        ssh ubuntu@10.30.0.209 "docker-compose down -f docker-compose.prod.yml || true"
+                        ssh ubuntu@10.30.0.209 "docker-compose down -f docker-compose-prod.yml || true"
 
                         ssh ubuntu@10.30.0.209 "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag"
 
-                        ssh ubuntu@10.30.0.209 "docker-compose up -f docker-compose.prod.yml --build -d"
+                        ssh ubuntu@10.30.0.209 "docker-compose up -f docker-compose-prod.yml --build -d"
 
                     """
                 }
