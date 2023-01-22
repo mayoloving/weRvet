@@ -106,7 +106,6 @@ pipeline {
             steps {
                 sh """
                     tag=\$(git tag -l | tail -1)
-                    TAG=\$tag
                     docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag
                     docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag
                 """
@@ -129,6 +128,7 @@ pipeline {
 
 
                         tag=\$(git tag -l | tail -1)
+                        export TAG=\$tag
                         ssh ubuntu@10.30.0.209 "docker-compose down -f docker-compose.prod.yml || true"
                         ssh ubuntu@10.30.0.209 "docker rmi -f \$(docker images) || true"
 
