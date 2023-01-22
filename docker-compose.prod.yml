@@ -1,6 +1,6 @@
 services:
   app:
-    image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:${TAG}
+    image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:${MY_TAG}
     # expose:
     #   - 5000
     ports:
