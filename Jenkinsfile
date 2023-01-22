@@ -106,6 +106,7 @@ pipeline {
             steps {
                 sh """
                     tag=\$(git tag -l | tail -1)
+                    TAG= "\$tag"
                     docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag
                     docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag
                 """
@@ -113,26 +114,34 @@ pipeline {
         }
 
 
-        // stage ("Deploy") {
-        //      when {
-        //         expression {
-        //             env.BRANCH_NAME == "master"
-        //         }
-        //     }
-        //     steps {
-        //         withCredentials([sshUserPrivateKey(credentialsId: 'key-gen1', keyFileVariable: '', usernameVariable: 'key-gen1')]) {
-        //             sh """
-        //                 ssh ubuntu@10.30.0.209 "docker rm -f toxicon || true"
-        //                 ssh ubuntu@10.30.0.209 "docker rmi -f toxic || true"
+        stage ("Deploy") {
+             when {
+                expression {
+                    env.BRANCH_NAME == "master"
+                }
+            }
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'key-gen1', keyFileVariable: '', usernameVariable: 'key-gen1')]) {
+                    sh """
+                        tar -cf portfolio-startup-package.tar app nginx_set 
+                        scp -r ./portfolio-startup-package.tar ubuntu@10.30.0.209:/home/ubuntu
+                        ssh ubuntu@10.30.0.209 "tar -xvf /home/ubuntu/portfolio-startup-package.tar -C /home/ubuntu/"
 
-        //                 ssh ubuntu@10.30.0.209 "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest"
 
-        //                 ssh ubuntu@10.30.0.209 "docker run --name toxicon -d -p 8085:8080 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:latest"
-        //             """
-        //         }
+                        tag=\$(git tag -l | tail -1)
+                        ssh ubuntu@10.30.0.209 "docker-compose down -f docker-compose.prod.yml || true"
+                        ssh ubuntu@10.30.0.209 "docker rmi -f \$(docker images) || true"
+
+
+                        ssh ubuntu@10.30.0.209 "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag"
+
+                        ssh ubuntu@10.30.0.209 "docker-compose up -f docker-compose.prod.yml --build -d --env TAG=${TAG}"
+
+                    """
+                }
                 
-        //     }
-        // }
+            }
+        }
 
         
 
