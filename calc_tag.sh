@@ -15,8 +15,8 @@ then
     minor=$(git tag -l | tail -1 | cut -d"." -f"2")
     val=$major.$minor.1
 
-    git tag -d $major.$minor
-    git push --delete origin $major.$minor
+    # git tag -d $major.$minor
+    # git push --delete origin $major.$minor
     echo "1"
     git tag $val HEAD
     git push https://github.com/mayoloving/weRvet.git $val
@@ -37,8 +37,8 @@ else
     else
         val=$majorlast.$minorlast.1
 
-        git tag -d $majorlast.$minorlast
-        git push --delete origin $majorlast.$minorlast
+        # git tag -d $majorlast.$minorlast
+        # git push --delete origin $majorlast.$minorlast
         echo "3"
         git tag $val HEAD
         git push https://github.com/mayoloving/weRvet.git $val
