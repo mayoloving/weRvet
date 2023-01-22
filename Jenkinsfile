@@ -97,20 +97,20 @@ pipeline {
             } 
         }
 
-        stage ("Publish to ECR") {
-            when {
-                expression {
-                    env.BRANCH_NAME == "master"
-                }
-            }
-            steps {
-                sh """
-                    tag=\$(git tag -l | tail -1)
-                    docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/wervet:\$tag
-                    docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/wervet:\$tag
-                """
-            }
-        }
+        // stage ("Publish to ECR") {
+        //     when {
+        //         expression {
+        //             env.BRANCH_NAME == "master"
+        //         }
+        //     }
+        //     steps {
+        //         sh """
+        //             tag=\$(git tag -l | tail -1)
+        //             docker tag wervet:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/wervet:\$tag
+        //             docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/wervet:\$tag
+        //         """
+        //     }
+        // }
 
 
         // stage ("Deploy") {
