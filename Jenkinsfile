@@ -57,7 +57,7 @@ pipeline {
                 sh """
                     docker run --name wervettest -d -p 5000:5000 wervet
                     sleep 5
-                    curl 35.178.167.179:5000
+                    curl 18.133.246.205:5000
                     docker stop wervettest || echo "no wervettest"
                     docker rm -f wervettest || echo "no wervettest"
                 """
@@ -93,6 +93,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github_id', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh """
+                        echo \$passwordVariable
+                        echo \$usernameVariable
                         git checkout \$GIT_BRANCH
                         git clone --branch \$GIT_BRANCH https://github.com/mayoloving/weRvet.git
                         
@@ -100,7 +102,21 @@ pipeline {
                 }
             } 
         }
-
+                        // git fetch --tags http://root:Aa123456@gitlab.example.com/gitlab-instance-9450cc01/analytics.git
+                        // val=\$(echo "\$GIT_BRANCH" | cut -d"/" -f"2")
+                        // echo \$(git tag -l)
+                        // echo \$(git describe --tags)
+                        // if [ -z "\$(git tag -l)" ];
+                        // then
+                        //     mvn versions:set -DnewVersion=\$val.1
+                        //     mvn dependency:list
+                        //     echo "\$val.1" > v.txt
+                        // else
+                        //     num=\$(git tag -l | tail -1 | cut -d"." -f"3")
+                        //     num=\$((\$num+1))
+                        //     echo "\$val.\$num" > v.txt
+                        //     mvn versions:set -DnewVersion=\$val.\$num
+                        // fi
         // stage ("Clean/reset and tag") {
         //     when {
         //         expression {
