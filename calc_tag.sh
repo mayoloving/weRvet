@@ -28,7 +28,7 @@ else
 
     if [ "$major" == "$majorlast" ] && [ "$minor" == "$minorlast" ];
     then
-        num=$(git tag -l | tail -2 | head -1 | cut -d"." -f"3")
+        num=$(git tag -l | tail -1 | cut -d"." -f"3")
         num=$(($num+1))
         val=$major.$minor.$num
         echo "2"
