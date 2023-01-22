@@ -122,9 +122,9 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'key_gen_prod', keyFileVariable: '', usernameVariable: 'key_gen_prod')]) {
                     sh """
+                        ssh ubuntu@10.30.0.209 "rm -rf app docker-compose-prod.yml nginx_set/ portfolio-startup-package.tar"
                         tar -cf portfolio-startup-package.tar app nginx_set docker-compose-prod.yml deploy.sh
                         scp -r ./portfolio-startup-package.tar ubuntu@10.30.0.209:/home/ubuntu
-                        ssh ubuntu@10.30.0.209 "rm -rf app docker-compose-prod.yml nginx_set/ portfolio-startup-package.tar"
                         ssh ubuntu@10.30.0.209 "tar -xvf /home/ubuntu/portfolio-startup-package.tar -C /home/ubuntu/"
 
                         tag=\$(git tag -l | sort -V | tail -1)
