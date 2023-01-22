@@ -95,12 +95,15 @@ pipeline {
                     sh """
                         echo \$(git tag -l)
                         echo \$(git describe --tags)
+                        t=\$(git tag -l | tail -1)
+                        major=\$(git tag -l | tail -1 | cut -d"." -f"1")
+                        minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
                         line=\$(git tag -l | wc -l)
 
                         if [ -z "\$(git tag -l)" ];
                         then
                             echo "no tags were entered yet by coders"
-                        elif [ \$line == "1" ];
+                        elif [ \$line == "1" ] && [ \$t == \$major.\$minor ];
                         then
                             major=\$(git tag -l | tail -1 | cut -d"." -f"1")
                             minor=\$(git tag -l | tail -1 | cut -d"." -f"2")
@@ -122,9 +125,6 @@ pipeline {
                                 num=\$(git tag -l | tail -2 | head -1 | cut -d"." -f"3")
                                 num=\$((\$num+1))
                                 val=\$major.\$minor.\$num
-
-                                git tag -d \$majorlast.\$minorlast
-                                git push --delete origin \$majorlast.\$minorlast
 
                                 git tag \$val HEAD
                                 git push https://github.com/mayoloving/weRvet.git \$val
