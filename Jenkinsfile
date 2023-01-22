@@ -131,7 +131,7 @@ pipeline {
                         MY_TAG=\$tag
                         echo "\$MY_TAG"
                         ssh ubuntu@10.30.0.209 "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/yotambenz:\$tag"
-                        ssh ubuntu@10.30.0.209 "bash /home/ubuntu/init.sh \$MY_TAG"
+                        ssh ubuntu@10.30.0.209 "bash /home/ubuntu/deploy.sh \$MY_TAG"
                     """
                 }
                 
