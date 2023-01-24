@@ -154,8 +154,7 @@ pipeline {
                 docker stop testinge2e || echo "no testinge2e"
                 docker rm -f testinge2e || echo "no testinge2e"
                 docker rmi -f tester || echo "no tester"
-            """ 
-             
+            """   
         } 
         failure { 
             sh """ 
