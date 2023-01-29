@@ -4,18 +4,18 @@
 {% block content %}
 <h1>Check on your pets</h1>
 
-<form id="inform" action="#" method="POST">
+<form id="inform" action="/pet" method="POST">
 
     <p>Name:<input name="petname" type=text></p>
     <p>ID:<input name="id" type=text></p>
     <p>Gender:<input name="gen" type=text></p>
     <p>Animal type:<input name="animal" type=text></p>
     <p>Message:<input name="msg" type=text></p>
-    <p><input id="sendBtn" type="submit" value="create"></p>
+    <p><input id="sendBtn" type="submit" value="add pet"></p>
 </form>
 <br>
-<div class="data">
+<!--<div class="data">
     {{data}}
-</div>
+</div>-->
 
 {% endblock %}
