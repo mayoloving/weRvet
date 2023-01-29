@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}serve page{% endblock %}
+
+{% block content %}
+<h1>Update pet</h1>
+
+<form id="inform" action="" method="POST">
+
+    <p>Name:<input name="petname" type=text></p>
+    <p>ID:<input id="uniqueID" name="id" type=text></p>
+    <p>Gender:<input name="gen" type=text></p>
+    <p>Animal type:<input name="animal" type=text></p>
+    <p>Message:<input name="msg" type=text></p>
+    <p><input id="sendBtn" type="submit" value="update pet"></p>
+</form>
+<br>
+<!--<div class="data">
+    {{data}}
+</div>-->
+<script>
+    var form = document.getElementById("inform");
+    var idElement = document.getElementById("uniqueID");
+    var id;
+
+    idElement.addEventListener('change', (event) => {
+        id = event.target.value;
+        form.action = "/update/" + id;
+    });
+</script>
+
+{% endblock %}
