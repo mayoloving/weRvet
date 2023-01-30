@@ -77,9 +77,10 @@ pipeline {
                     pwd
                     ls -al
                     docker-compose up --build -d
-                    cd test 
+                    pushd test 
                     docker build -t tester .
                     docker run --name testinge2e --network=portfolio-proj_master_default tester:latest
+                    popd
                 """
             }
         }
