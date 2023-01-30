@@ -19,14 +19,15 @@ def home():
     return render_template('index.html')
 
 
-@app.route("/metrics", methods=["GET"])
-# `GET /metrics` use later, for monitoring.
-def metrics():
-    return render_template('index.html')
+# @app.route("/metrics", methods=["GET"])
+# # `GET /metrics` use later, for monitoring.
+# def metrics():
+#     return render_template('index.html')
 
 @app.route("/<pagename>", methods=["GET"])
 def pg_name(pagename):
     return render_template(pagename)
+
 
 @app.route("/pet", methods=["GET","POST"])
 def fetch_pets():
