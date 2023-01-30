@@ -2,18 +2,22 @@
 {% block title %}Register page{% endblock %}
 
 {% block content %}
-<h1>Check on your pets</h1>
+<div class="holder_content1">
+    <section class="group5">
+        <h1>Register your pets now!</h1>
+        <article>
+            <form id="inform" action="/pet" method="POST">
 
-<form id="inform" action="/pet" method="POST">
-
-    <p>Name:<input name="petname" type=text></p>
-    <p>ID:<input name="id" type=text></p>
-    <p>Gender:<input name="gen" type=text></p>
-    <p>Animal type:<input name="animal" type=text></p>
-    <p>Message:<input name="msg" type=text></p>
-    <p><input id="sendBtn" type="submit" value="add pet"></p>
-</form>
-<br>
+                <p style="color:white; font-size:14px;">Name:<input name="petname" type=text></p>
+                <p style="color:white; font-size:14px;">ID:<input name="id" type=text></p>
+                <p style="color:white; font-size:14px;">Gender:<input name="gen" type=text></p>
+                <p style="color:white; font-size:14px;">Animal type:<input name="animal" type=text></p>
+                <p style="color:white; font-size:14px;">Message:<input name="msg" type=text></p>
+                <p style="color:white; font-size:14px;"><input id="sendBtn" type="submit" value="add pet"></p>
+            </form>
+        </article>
+    </section>
+</div>
 <!--<div class="data">
     {{data}}
 </div>-->
