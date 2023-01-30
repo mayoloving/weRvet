@@ -57,7 +57,7 @@ pipeline {
                 sh """
                     docker run --name wervettest -d -p 5000:5000 wervet
                     sleep 5
-                    curl 35.178.73.127:5000
+                    curl 18.170.74.253:5000
                     docker stop wervettest || echo "no wervettest"
                     docker rm -f wervettest || echo "no wervettest"
                 """
