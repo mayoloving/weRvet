@@ -72,15 +72,14 @@ pipeline {
                     expression {env.BRANCH_NAME.contains("master")}
                 }
             }
-            steps {//popd pushd
+            steps {
                 sh """
                     pwd
                     ls -al
                     docker-compose up --build -d
-                    pushd test 
+                    cd test 
                     docker build -t tester .
                     docker run --name testinge2e --network=portfolio-proj_master_default tester:latest
-                    popd
                 """
             }
         }
