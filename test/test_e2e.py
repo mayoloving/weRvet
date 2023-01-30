@@ -43,13 +43,23 @@ def test_put_petid_request():
     request_json = json.loads(json_input)
     print(request_json)
     
-    
-    response = requests.put(base_url + "/update/0", request_json)
+    petid = request_json.get("id")
+    print(petid)
+    response = requests.post(base_url + "/update/" + str(petid), request_json)
     print(response.content)
+    print(response.url)
     assert response.status_code == 200
     
 #==============================/delete/<id>/===============================
 def test_delete_petid_request():
-    response = requests.delete(base_url + "/delete/0")
+    file = open("./delete.json", "r")
+    json_input = file.read()
+    request_json = json.loads(json_input)
+    print(request_json)
+    
+    petid = request_json.get("id")
+    print(petid)
+    response = requests.post(base_url + "/delete/" + str(petid))
     print(response.status_code)
     assert response.status_code == 200
+#/home/yotambenz/Desktop/portfolio-yotambenz/weRvet/test/
