@@ -36,7 +36,7 @@ def test_get_petid_request():
     assert response.status_code == 200
     print(response.content)
 
-
+#==============================/update/<id>/===============================
 def test_put_petid_request():
     file = open("./update.json", "r")
     json_input = file.read()
@@ -44,12 +44,12 @@ def test_put_petid_request():
     print(request_json)
     
     
-    response = requests.put(base_url + "/pet/0", request_json)
+    response = requests.put(base_url + "/update/0", request_json)
     print(response.content)
     assert response.status_code == 200
     
-    
+#==============================/delete/<id>/===============================
 def test_delete_petid_request():
-    response = requests.delete(base_url + "/pet/0")
+    response = requests.delete(base_url + "/delete/0")
     print(response.status_code)
     assert response.status_code == 200
