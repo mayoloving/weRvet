@@ -2,13 +2,18 @@
 {% block title %}Delete page{% endblock %}
 
 {% block content %}
-<h1>Delete pet</h1>
+<div class="holder_content1">
+    <section class="group5">
+        <h1>Delete pet</h1>
+        <article>
+            <form id="inform" action="" method="POST">
+                <p>ID:<input id="uniqueID" name="id" type=text></p>
+                <p><input id="sendBtn" type="submit" value="delete pet"></p>
+            </form>
+        </article>
+    </section>
+</div>
 
-<form id="inform" action="" method="POST">
-    <p>ID:<input id="uniqueID" name="id" type=text></p>
-    <p><input id="sendBtn" type="submit" value="delete pet"></p>
-</form>
-<br>
 <!--<div class="data">
     {{data}}
 </div>-->

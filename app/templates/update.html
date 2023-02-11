@@ -2,18 +2,22 @@
 {% block title %}Update page{% endblock %}
 
 {% block content %}
-<h1>Update pet</h1>
+<div class="holder_content1">
+    <section class="group5">
+        <h1>Update your pet by ID</h1>
+        <article>
+            <form id="inform" action="" method="POST">
+                <p>Name:<input name="petname" type=text></p>
+                <p>ID:<input id="uniqueID" name="id" type=text></p>
+                <p>Gender:<input name="gen" type=text></p>
+                <p>Animal type:<input name="animal" type=text></p>
+                <p>Message:<input name="msg" type=text></p>
+                <p><input id="sendBtn" type="submit" value="update pet"></p>
+            </form>
+        </article>
+    </section>
+</div>
 
-<form id="inform" action="" method="POST">
-
-    <p>Name:<input name="petname" type=text></p>
-    <p>ID:<input id="uniqueID" name="id" type=text></p>
-    <p>Gender:<input name="gen" type=text></p>
-    <p>Animal type:<input name="animal" type=text></p>
-    <p>Message:<input name="msg" type=text></p>
-    <p><input id="sendBtn" type="submit" value="update pet"></p>
-</form>
-<br>
 <!--<div class="data">
     {{data}}
 </div>-->
